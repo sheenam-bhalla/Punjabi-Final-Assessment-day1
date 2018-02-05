@@ -11,7 +11,9 @@
         var service = {
             getTomatoes: getTomatoes,
             getFarms: getFarms,
-            getExerciseThreeData: getExerciseThreeData
+            getExerciseThreeData: getExerciseThreeData,
+            getAnnouncements: getAnnouncements,
+            getAnnouncementsOwners: getAnnouncementsOwners
         };
 
         return service;
@@ -44,6 +46,22 @@
         }
 
         //Add your code here.
+        function getAnnouncements() {
+            return $http({
+                method: 'GET',
+                url: 'http://localhost:3000/announcements'
+            }).then(function(response) {
+                return response.data;
+            });
+        }
 
+        function getAnnouncementsOwners() {
+            return $http({
+                method: 'GET',
+                url: 'http://localhost:3000/owners'
+            }).then(function(response) {
+                return response.data;
+            });
+        }
     }
 })();
