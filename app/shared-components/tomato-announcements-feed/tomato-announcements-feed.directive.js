@@ -22,14 +22,14 @@
         return directive;
     }
  
-    TomatoAnnouncementsFeedController.$inject = ['tomatoAnnouncementsFeedService', '$sce'];
+    TomatoAnnouncementsFeedController.$inject = ['tomatoAnnouncementsFeedService', '$sce', 'filterService'];
  
-    function TomatoAnnouncementsFeedController(tomatoAnnouncementsFeedService, $sce) {
+    function TomatoAnnouncementsFeedController(tomatoAnnouncementsFeedService, $sce, filterService) {
         var vm = this;
         vm.filteredData = [];
         vm.searchText = "";
         vm.maxPerPage = 15;
-
+        vm.filterDataByType = filterDataByType;
         activate();
 
         function activate() {
@@ -38,8 +38,15 @@
 
         function getFilteredData(announcementsData, ownersData) {
             vm.filteredData = tomatoAnnouncementsFeedService.getOwnerInfo(announcementsData, ownersData);
+            vm.dataToShow = vm.filteredData;
+            vm.Types = _.uniq(_(vm.filteredData).map('Type.Title').value());
+            vm.Types.unshift('All');
+            vm.selectedType = 'All';
         }
-
+      
+        function filterDataByType(){
+            vm.filteredData = filterService.filterDataByType(vm.selectedType, vm.filteredData, vm.dataToShow);
+        }
     }
  })();
  
